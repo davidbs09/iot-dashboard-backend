@@ -1,4 +1,6 @@
 HELP.md
+copilot-instructions.md
+test-api.ps1
 target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
