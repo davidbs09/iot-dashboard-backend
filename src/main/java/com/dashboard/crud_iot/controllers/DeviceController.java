@@ -6,6 +6,13 @@ import com.dashboard.crud_iot.dto.DeviceUpdateDTO;
 import com.dashboard.crud_iot.enums.DeviceStatus;
 import com.dashboard.crud_iot.enums.DeviceType;
 import com.dashboard.crud_iot.services.DeviceService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +32,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 @CrossOrigin(origins = "*") // Para permitir requisições do frontend Angular
+@Tag(name = "Dispositivos IoT", description = "APIs para gerenciamento completo de dispositivos IoT")
 public class DeviceController {
 
     private final DeviceService deviceService;
@@ -36,7 +44,24 @@ public class DeviceController {
      * @return DeviceResponseDTO com os dados do dispositivo criado
      */
     @PostMapping
-    public ResponseEntity<DeviceResponseDTO> createDevice(@Valid @RequestBody DeviceCreateDTO createDTO) {
+    @Operation(
+        summary = "Criar novo dispositivo IoT",
+        description = "Cria um novo dispositivo IoT no sistema com validações completas"
+    )
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "201", 
+            description = "Dispositivo criado com sucesso",
+            content = @Content(schema = @Schema(implementation = DeviceResponseDTO.class))
+        ),
+        @ApiResponse(
+            responseCode = "400", 
+            description = "Dados inválidos ou dispositivo já existe"
+        )
+    })
+    public ResponseEntity<DeviceResponseDTO> createDevice(
+            @Parameter(description = "Dados do dispositivo a ser criado", required = true)
+            @Valid @RequestBody DeviceCreateDTO createDTO) {
         log.info("Recebida requisição para criar dispositivo: {}", createDTO.getDeviceName());
         try {
             DeviceResponseDTO device = deviceService.createDevice(createDTO);
@@ -53,6 +78,15 @@ public class DeviceController {
      * @return Lista de todos os dispositivos
      */
     @GetMapping
+    @Operation(
+        summary = "Listar todos os dispositivos",
+        description = "Retorna uma lista completa de todos os dispositivos IoT cadastrados no sistema"
+    )
+    @ApiResponse(
+        responseCode = "200", 
+        description = "Lista de dispositivos retornada com sucesso",
+        content = @Content(schema = @Schema(implementation = DeviceResponseDTO.class))
+    )
     public ResponseEntity<List<DeviceResponseDTO>> getAllDevices() {
         log.info("Recebida requisição para buscar todos os dispositivos");
         List<DeviceResponseDTO> devices = deviceService.getAllDevices();
@@ -66,7 +100,24 @@ public class DeviceController {
      * @return DeviceResponseDTO ou 404 se não encontrado
      */
     @GetMapping("/{id}")
-    public ResponseEntity<DeviceResponseDTO> getDeviceById(@PathVariable Long id) {
+    @Operation(
+        summary = "Buscar dispositivo por ID",
+        description = "Retorna os detalhes de um dispositivo específico pelo seu ID"
+    )
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200", 
+            description = "Dispositivo encontrado",
+            content = @Content(schema = @Schema(implementation = DeviceResponseDTO.class))
+        ),
+        @ApiResponse(
+            responseCode = "404", 
+            description = "Dispositivo não encontrado"
+        )
+    })
+    public ResponseEntity<DeviceResponseDTO> getDeviceById(
+            @Parameter(description = "ID do dispositivo", required = true, example = "1")
+            @PathVariable Long id) {
         log.info("Recebida requisição para buscar dispositivo por ID: {}", id);
         Optional<DeviceResponseDTO> device = deviceService.getDeviceById(id);
         return device.map(ResponseEntity::ok)

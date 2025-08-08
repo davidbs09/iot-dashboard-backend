@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
+// import org.springframework.web.bind.annotation.RestControllerAdvice; // Comentado temporariamente
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -15,8 +15,10 @@ import java.util.Map;
 /**
  * Configuração global para tratamento de exceções da aplicação.
  * Captura exceções lançadas pelos controllers e retorna respostas padronizadas.
+ * 
+ * TEMPORARIAMENTE COMENTADO PARA RESOLVER CONFLITO COM SWAGGER
  */
-@RestControllerAdvice
+//@RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
     
