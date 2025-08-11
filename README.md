@@ -276,7 +276,7 @@ Response:
 
 **David Barbosa Santos**
 - 🎯 **Objetivo**: Vaga Desenvolvedor Backend Jr - Meta Telecom
-- 💼 **LinkedIn**: [davidbs09](https://linkedin.com/in/davidbs09)
+- 💼 **LinkedIn**: [David Bissaco da Silva](https://linkedin.com/in/davidbs09)
 - 🐙 **GitHub**: [davidbs09](https://github.com/davidbs09)
 - 📧 **Email**: davidbissacodasilva@gmail.com
 
